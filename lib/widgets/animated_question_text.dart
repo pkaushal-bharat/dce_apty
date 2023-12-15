@@ -8,7 +8,7 @@ class AnimatedQuestionText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AnimatedOpacity(
-      duration: const Duration(seconds: 1),
+      duration: const Duration(milliseconds: 100),
       opacity: 1,
       child: Text(
         question,

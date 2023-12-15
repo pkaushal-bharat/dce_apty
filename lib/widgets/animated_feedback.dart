@@ -11,16 +11,16 @@ class AnimatedFeedback extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AnimatedOpacity(
-      duration: const Duration(seconds: 1),
+      duration: const Duration(milliseconds: 100),
       opacity: 1,
       child: Column(
         children: [
-          Text(
-            isCorrect ? 'Correct!' : 'Incorrect!',
-            style: TextStyle(
-                color: isCorrect ? Colors.green : Colors.red, fontSize: 20),
-          ),
-          const SizedBox(height: 10),
+          // Text(
+          //   isCorrect ? 'Correct!' : 'Incorrect!',
+          //   style: TextStyle(
+          //       color: isCorrect ? Colors.green : Colors.red, fontSize: 20),
+          // ),
+          // const SizedBox(height: 10),
           Text(
             'The correct answer is: $correctAnswer',
             style: const TextStyle(fontSize: 16),

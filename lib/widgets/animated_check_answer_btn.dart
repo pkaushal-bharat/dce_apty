@@ -10,7 +10,7 @@ class AnimatedCheckAnswerButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AnimatedOpacity(
-      duration: const Duration(seconds: 1),
+      duration: const Duration(milliseconds: 100),
       opacity: isVisible ? 1 : 0,
       child: ElevatedButton(
         onPressed: onPressed,

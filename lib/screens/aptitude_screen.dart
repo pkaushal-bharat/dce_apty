@@ -1,13 +1,16 @@
 import 'dart:async';
 import 'dart:math';
 
-import 'package:flutter/material.dart';
-import 'package:dce_apty/models/question_model.dart';
 import 'package:dce_apty/widgets/animated_answer_textfield.dart';
 import 'package:dce_apty/widgets/animated_check_answer_btn.dart';
 import 'package:dce_apty/widgets/animated_feedback.dart';
 import 'package:dce_apty/widgets/animated_next_question_btn.dart';
 import 'package:dce_apty/widgets/animated_question_text.dart';
+import 'package:dce_apty/widgets/feedback_and_next_button.dart';
+import 'package:dce_apty/widgets/question_and_answer.dart';
+import 'package:dce_apty/widgets/top_stats_infobar.dart';
+import 'package:flutter/material.dart';
+import 'package:dce_apty/models/question_model.dart';
 
 class AptitudeScreen extends StatefulWidget {
   final List<QuestionModel> questions;
@@ -112,7 +115,12 @@ class _AptitudeScreenState extends State<AptitudeScreen> {
         ],
       ),
       body: buildQuestionBody(currentQuestion),
-      bottomNavigationBar: buildBottomNavigationBar(),
+      bottomNavigationBar: BottomAppBar(
+          child: TopStatsBar(
+        totalTimeInSeconds: totalTimeInSeconds,
+        correctAnswersCount: correctAnswersCount,
+        timeSpentOnCurrentQuestion: timeSpentOnCurrentQuestion,
+      )),
     );
   }
 
@@ -124,15 +132,21 @@ class _AptitudeScreenState extends State<AptitudeScreen> {
         children: [
           AnimatedQuestionText(question: currentQuestion.question),
           const SizedBox(height: 20),
-          AnimatedAnswerTextField(controller: answerController),
-          const SizedBox(height: 20),
-          AnimatedCheckAnswerButton(
-            onPressed: () {
-              if (answerController.text.isNotEmpty) {
-                checkAnswer();
-              }
-            },
-            isVisible: !showCorrectAnswer,
+          Row(
+            children: [
+              Expanded(
+                child: AnimatedAnswerTextField(controller: answerController),
+              ),
+              const SizedBox(width: 10), // Adjust spacing between elements
+              AnimatedCheckAnswerButton(
+                onPressed: () {
+                  if (answerController.text.isNotEmpty) {
+                    checkAnswer();
+                  }
+                },
+                isVisible: !showCorrectAnswer,
+              ),
+            ],
           ),
           const SizedBox(height: 20),
           if (showCorrectAnswer)
@@ -153,82 +167,29 @@ class _AptitudeScreenState extends State<AptitudeScreen> {
     );
   }
 
-  Widget buildBottomNavigationBar() {
-    return BottomAppBar(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          // Display total time on the left
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text("Total Time Spent: ${formatTime(totalTimeInSeconds)}"),
-          ),
-          ElevatedButton(
-            onPressed: null,
-            child: Text("Correct Answers: $correctAnswersCount"),
-          ),
-          // Display time spent on the current question on the right
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-                "This Question : ${formatTime(timeSpentOnCurrentQuestion)}"),
-          ),
-        ],
-      ),
-    );
-  }
-
-  String formatTime(int seconds) {
-    // Format the time in HH:MM:SS
-    final hours = seconds ~/ 3600;
-    final minutes = (seconds % 3600) ~/ 60;
-    final remainingSeconds = seconds % 60;
-    return '$hours:${minutes.toString().padLeft(2, '0')}:${remainingSeconds.toString().padLeft(2, '0')}';
-  }
-
   void _showDeveloperInfo(BuildContext context) {
     showDialog(
       context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Developer Information'),
-          content: Column(
-            children: [
-              const CircleAvatar(
-                radius: 50,
-                backgroundImage: AssetImage(
-                    'assets/pkaush.png'), // Replace with your image asset
-              ),
-              const SizedBox(height: 10),
-              const Text('Developer: Prakash Kaushal'),
-              const Text('Email: pkaushal41119@gmail.com'),
-              GestureDetector(
-                onTap: () {
-                  // Launch LinkedIn profile in a browser or LinkedIn app
-                  // You may need to use a package like 'url_launcher' for this
-                  print("Opening LinkedIn profile");
-                },
-                child: const Text(
-                  'LinkedIn: linkedin.com/in/prakasa-k',
-                  style: TextStyle(
-                    color: Colors.blue,
-                    decoration: TextDecoration.underline,
-                  ),
-                ),
-              ),
-              // Add more details as needed
-            ],
+      builder: (context) => AboutDialog(
+        children: [
+          const CircleAvatar(
+            radius: 100,
+            backgroundImage: AssetImage('assets/pkaush.jpg'),
           ),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text('Close'),
+          const SizedBox(height: 10),
+          Text('Prakash Kaushal',
+              style: Theme.of(context).textTheme.titleLarge),
+          const Text('pkaushal41119@gmail.com'),
+          InkWell(
+            onTap: () => print('Opening LinkedIn profile'),
+            child: const Text(
+              'linkedin.com/in/prakasa-k',
+              style: TextStyle(
+                  color: Colors.blue, decoration: TextDecoration.underline),
             ),
-          ],
-        );
-      },
+          ),
+        ],
+      ),
     );
   }
 }

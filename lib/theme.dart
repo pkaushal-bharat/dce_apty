@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-// Define your primary and accent colors
-const primaryColor = Colors.blue;
-const accentColor = Colors.green;
+const primaryColor = Color(0xFF2196F3); // Royal blue
+const accentColor = Color(0xFF4CAF50); // Mint green
+const tertiaryColor = Color(0xFFF44336); // Coral
 
-// Define the theme for your app
 final ThemeData appTheme = ThemeData(
   primaryColor: primaryColor,
   hintColor: accentColor,
@@ -16,14 +15,22 @@ final ThemeData appTheme = ThemeData(
   ),
   textTheme: const TextTheme(
     titleLarge: TextStyle(
-      color: Colors.black, // Change the default text color
-      fontSize: 18.0,
+      color: Colors.black,
+      fontSize: 20.0,
       fontWeight: FontWeight.bold,
     ),
-    // Add more text styles as needed
+    bodyMedium: TextStyle(
+      color: Colors.black87,
+      fontSize: 16.0,
+    ),
   ),
   buttonTheme: const ButtonThemeData(
-    buttonColor: primaryColor, // Default button color
+    buttonColor: primaryColor,
     textTheme: ButtonTextTheme.primary,
+  ),
+  bottomNavigationBarTheme: BottomNavigationBarThemeData(
+    type: BottomNavigationBarType.fixed,
+    selectedItemColor: accentColor,
+    unselectedItemColor: Colors.grey[600],
   ),
 );
