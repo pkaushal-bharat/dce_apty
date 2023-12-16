@@ -14,24 +14,34 @@ class TopStatsBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        // Display total time on the left
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text("Total Time: ${formatTime(totalTimeInSeconds)}"),
+    return Container(
+      margin: const EdgeInsets.fromLTRB(0, 0, 0, 8),
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: Theme.of(context).colorScheme.tertiary,
+          width: 2.0,
         ),
-        ElevatedButton(
-          onPressed: null,
-          child: Text(formatTime(timeSpentOnCurrentQuestion)),
-        ),
-        // Display time spent on the current question on the right
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text("Correct: $correctAnswersCount"),
-        ),
-      ],
+        borderRadius: BorderRadius.circular(10.0),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          // Display time spent on the current question on the right
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text("Correct: $correctAnswersCount"),
+          ),
+          ElevatedButton(
+            onPressed: null,
+            child: Text(formatTime(timeSpentOnCurrentQuestion)),
+          ),
+          // Display total time on the left
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text("Total: ${formatTime(totalTimeInSeconds)}"),
+          ),
+        ],
+      ),
     );
   }
 

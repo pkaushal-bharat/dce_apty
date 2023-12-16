@@ -2,12 +2,8 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:dce_apty/widgets/animated_answer_textfield.dart';
-import 'package:dce_apty/widgets/animated_check_answer_btn.dart';
-import 'package:dce_apty/widgets/animated_feedback.dart';
 import 'package:dce_apty/widgets/animated_next_question_btn.dart';
 import 'package:dce_apty/widgets/animated_question_text.dart';
-import 'package:dce_apty/widgets/feedback_and_next_button.dart';
-import 'package:dce_apty/widgets/question_and_answer.dart';
 import 'package:dce_apty/widgets/top_stats_infobar.dart';
 import 'package:flutter/material.dart';
 import 'package:dce_apty/models/question_model.dart';
@@ -106,7 +102,7 @@ class _AptitudeScreenState extends State<AptitudeScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Aptitude Question $questionCount'),
+        title: Text('Aptitude Question: $questionCount'),
         actions: [
           IconButton(
             icon: const Icon(Icons.info),
@@ -115,12 +111,6 @@ class _AptitudeScreenState extends State<AptitudeScreen> {
         ],
       ),
       body: buildQuestionBody(currentQuestion),
-      bottomNavigationBar: BottomAppBar(
-          child: TopStatsBar(
-        totalTimeInSeconds: totalTimeInSeconds,
-        correctAnswersCount: correctAnswersCount,
-        timeSpentOnCurrentQuestion: timeSpentOnCurrentQuestion,
-      )),
     );
   }
 
@@ -130,29 +120,45 @@ class _AptitudeScreenState extends State<AptitudeScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          TopStatsBar(
+            totalTimeInSeconds: totalTimeInSeconds,
+            correctAnswersCount: correctAnswersCount,
+            timeSpentOnCurrentQuestion: timeSpentOnCurrentQuestion,
+          ),
           AnimatedQuestionText(question: currentQuestion.question),
-          const SizedBox(height: 20),
           Row(
             children: [
               Expanded(
                 child: AnimatedAnswerTextField(controller: answerController),
               ),
-              const SizedBox(width: 10), // Adjust spacing between elements
-              AnimatedCheckAnswerButton(
-                onPressed: () {
-                  if (answerController.text.isNotEmpty) {
-                    checkAnswer();
-                  }
-                },
-                isVisible: !showCorrectAnswer,
-              ),
+              const SizedBox(width: 8), // Adjust spacing between elements
+              AnimatedOpacity(
+                  duration: const Duration(milliseconds: 100),
+                  opacity: 1,
+                  child: showCorrectAnswer
+                      ? Text(
+                          isCorrect ? 'Correct!' : 'Incorrect!',
+                          style: TextStyle(
+                              color: isCorrect ? Colors.green : Colors.red,
+                              fontSize: 20),
+                        )
+                      : ElevatedButton(
+                          onPressed: () {
+                            if (answerController.text.isNotEmpty) {
+                              checkAnswer();
+                            }
+                          },
+                          child: const Text('Check Answer'),
+                        )),
             ],
           ),
-          const SizedBox(height: 20),
+          const SizedBox(height: 8),
           if (showCorrectAnswer)
-            AnimatedFeedback(
-                correctAnswer: currentQuestion.answer, isCorrect: isCorrect),
-          const SizedBox(height: 20),
+            Text(
+              'The correct answer is: ${currentQuestion.answer}',
+              style: const TextStyle(fontSize: 16),
+            ),
+          const SizedBox(height: 8),
           Expanded(
             child: Align(
               alignment: Alignment.bottomCenter,
@@ -176,7 +182,7 @@ class _AptitudeScreenState extends State<AptitudeScreen> {
             radius: 100,
             backgroundImage: AssetImage('assets/pkaush.jpg'),
           ),
-          const SizedBox(height: 10),
+          const SizedBox(height: 8),
           Text('Prakash Kaushal',
               style: Theme.of(context).textTheme.titleLarge),
           const Text('pkaushal41119@gmail.com'),
