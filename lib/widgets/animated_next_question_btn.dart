@@ -16,7 +16,7 @@ class AnimatedNextQuestionButton extends StatelessWidget {
       child: ElevatedButton(
         onPressed: onPressed,
         style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.resolveWith(
+          backgroundColor: WidgetStateProperty.resolveWith(
             (states) => Colors.blue,
           ),
         ),

@@ -1,10 +1,11 @@
 import 'dart:async';
 import 'dart:math';
 
-import 'package:dce_apty/widgets/animated_answer_textfield.dart';
+import 'package:dce_apty/constants.dart';
+import 'package:dce_apty/widgets/animated_answer_field.dart';
 import 'package:dce_apty/widgets/animated_next_question_btn.dart';
 import 'package:dce_apty/widgets/animated_question_text.dart';
-import 'package:dce_apty/widgets/top_stats_infobar.dart';
+import 'package:dce_apty/widgets/top_stats_info.dart';
 import 'package:flutter/material.dart';
 import 'package:dce_apty/models/question_model.dart';
 
@@ -14,10 +15,10 @@ class AptitudeScreen extends StatefulWidget {
   const AptitudeScreen({Key? key, required this.questions}) : super(key: key);
 
   @override
-  _AptitudeScreenState createState() => _AptitudeScreenState();
+  AptitudeScreenState createState() => AptitudeScreenState();
 }
 
-class _AptitudeScreenState extends State<AptitudeScreen> {
+class AptitudeScreenState extends State<AptitudeScreen> {
   int questionCount = 1;
   int currentQuestionIndex = 0;
   int correctAnswersCount = 0;
@@ -180,16 +181,17 @@ class _AptitudeScreenState extends State<AptitudeScreen> {
         children: [
           const CircleAvatar(
             radius: 100,
-            backgroundImage: AssetImage('assets/pkaush.jpg'),
+            backgroundImage: AssetImage(GlobalConstants.DEV_IMG),
           ),
           const SizedBox(height: 8),
-          Text('Prakash Kaushal',
+          Text(GlobalConstants.AUTHOR,
               style: Theme.of(context).textTheme.titleLarge),
-          const Text('pkaushal41119@gmail.com'),
+          const Text(GlobalConstants.CONTACT),
           InkWell(
+            // ignore: avoid_print
             onTap: () => print('Opening LinkedIn profile'),
             child: const Text(
-              'linkedin.com/in/prakasa-k',
+              GlobalConstants.LINKEDIN,
               style: TextStyle(
                   color: Colors.blue, decoration: TextDecoration.underline),
             ),

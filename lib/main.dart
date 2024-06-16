@@ -1,6 +1,7 @@
-
+import 'package:dce_apty/constants.dart';
 import 'package:dce_apty/models/question_model.dart';
 import 'package:dce_apty/screens/aptitude_screen.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'theme.dart';
@@ -14,11 +15,12 @@ void main() async {
   final List<QuestionModel> questions = loadQuestionsFromJson(jsonString);
 
   // Now you can use the 'questions' list in your app
-  print(questions.length);
+  if (kDebugMode) {
+    print(questions.length);
+  }
   runApp(MaterialApp(
-      title: 'APTi Practice',
-      theme: appTheme,
-      home: AptitudeScreen(questions: questions),
-    ));
+    title: GlobalConstants.APPNAME,
+    theme: appTheme,
+    home: AptitudeScreen(questions: questions),
+  ));
 }
-
